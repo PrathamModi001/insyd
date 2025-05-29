@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  notification-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insyd-notification-service
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
+      - MONGODB_URI=${MONGODB_URI}
+      - KAFKA_BROKERS=${KAFKA_BROKERS}
+      - KAFKA_CLIENT_ID=${KAFKA_CLIENT_ID}
+      - KAFKA_GROUP_ID=${KAFKA_GROUP_ID}
+      - KAFKA_MECHANISM=${KAFKA_MECHANISM}
+      - KAFKA_USERNAME=${KAFKA_USERNAME}
+      - KAFKA_PASSWORD=${KAFKA_PASSWORD}
+      - KAFKA_SSL=${KAFKA_SSL}
+      - CA_CERT=${CA_CERT}
+      - WEBSOCKET_SERVER=${WEBSOCKET_SERVER}
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+    restart: unless-stopped
+    networks:
+      - insyd-network
+
+networks:
+  insyd-network:
+    driver: bridge 
